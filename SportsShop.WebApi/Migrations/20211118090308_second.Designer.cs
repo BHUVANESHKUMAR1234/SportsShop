@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsShop.WebApi.Models;
 
 namespace SportsShop.WebApi.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20211118090308_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,12 +40,7 @@ namespace SportsShop.WebApi.Migrations
                     b.Property<string>("EmailId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderNumber")
-                        .HasColumnType("int");
-
                     b.HasKey("CustomerId");
-
-                    b.HasIndex("OrderNumber");
 
                     b.ToTable("Customers");
                 });
@@ -61,15 +58,10 @@ namespace SportsShop.WebApi.Migrations
                     b.Property<string>("ItemName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderNumber")
-                        .HasColumnType("int");
-
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("ItemNumber");
-
-                    b.HasIndex("OrderNumber");
 
                     b.ToTable("Items");
                 });
@@ -87,6 +79,9 @@ namespace SportsShop.WebApi.Migrations
                     b.Property<int?>("ItemNumber")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ItemNumber1")
+                        .HasColumnType("int");
+
                     b.Property<string>("OrderAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -95,21 +90,22 @@ namespace SportsShop.WebApi.Migrations
 
                     b.HasKey("OrderNumber");
 
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ItemNumber1");
+
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SportsShop.WebApi.Models.Customer", b =>
+            modelBuilder.Entity("SportsShop.WebApi.Models.Order", b =>
                 {
-                    b.HasOne("SportsShop.WebApi.Models.Order", null)
-                        .WithMany("Customer")
-                        .HasForeignKey("OrderNumber");
-                });
+                    b.HasOne("SportsShop.WebApi.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
 
-            modelBuilder.Entity("SportsShop.WebApi.Models.Item", b =>
-                {
-                    b.HasOne("SportsShop.WebApi.Models.Order", null)
-                        .WithMany("Item")
-                        .HasForeignKey("OrderNumber");
+                    b.HasOne("SportsShop.WebApi.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemNumber1");
                 });
 #pragma warning restore 612, 618
         }

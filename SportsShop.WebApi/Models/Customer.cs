@@ -31,6 +31,7 @@ namespace SportsShop.WebApi.Models
         //[Column(TypeName = "nvarchar(100)")]
         //[DisplayName("Email ID")]
         public string EmailId { get; set; }
+       
 
     }
 }

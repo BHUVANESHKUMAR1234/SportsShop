@@ -13,16 +13,22 @@ namespace SportsShop.WebApi.Models
 
        
        // [Column(TypeName = "DateTime")]
-      
+       public int? CustomerId { get; set; }
+        public int? ItemNumber { get; set; }
+        public String OrderAddress { get; set; }
+
+
+
 
 
 
 
         public DateTime OrderDate { get; set; }
+        public virtual ICollection<Item> Item { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public virtual ICollection<Customer> Customer { get; set; }
 
-        public virtual Item Item { get; set; }
+       
        
 
 
