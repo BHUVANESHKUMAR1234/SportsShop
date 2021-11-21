@@ -14,10 +14,12 @@ namespace SportsShop.WebApi.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly MyContext _context;
+       
 
         public CustomersController(MyContext context)
         {
             _context = context;
+           
         }
 
         // GET: api/Customers
@@ -40,6 +42,34 @@ namespace SportsShop.WebApi.Controllers
 
             return customer;
         }
+
+
+
+        // GET: api/getOrders/5
+        [HttpGet("GetOrders/{id}")]
+        
+
+        public ActionResult GetCustomerOrder(int id)
+        {
+            return Ok(_context.Orders.Where(x => x.CustomerId == id).ToList());
+        }
+
+        //public ActionResult GetItemDetails(int id)
+        //{
+        //    return Ok(_context.Items.Where(x => x.ItemNumber == id).ToList());
+        //}
+
+
+
+        //public async Task<IActionResult> GetCustomerOrder(int id) {
+
+        //    return  await _context.Orders.Where(x => x.CustomerId == id).ToList();
+
+        //     //.FirstOrDefaultAsync(x => x.CustomerId == id);
+        //}
+        //await _context.Orders
+        //    .Include(x => x.CustomerId);
+
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

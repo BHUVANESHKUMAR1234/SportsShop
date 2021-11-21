@@ -8,27 +8,27 @@ namespace SportsShop.WebApi.Services
 {
     public class OrderService : IOrderService
     {
-        public Task<Order> CreateOrder(Order order)
+        public Task<order> CreateOrder(order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteOrder(Order order)
+        public Task DeleteOrder(order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Order> GetOrderById(int id)
+        public Task<order> GetOrderById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> GetOrderList()
+        public Task<IEnumerable<order>> GetOrderList()
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateOrder(Order order)
+        public Task UpdateOrder(order order)
         {
             throw new NotImplementedException();
         }

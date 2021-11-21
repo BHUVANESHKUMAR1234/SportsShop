@@ -40,8 +40,11 @@ namespace SportsShop.WebApi
             });
 
             services.AddControllers();
-            services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-        
+            services.AddDbContext<MyContext>(options => options.UseLazyLoadingProxies()
+            .UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+
+            
+
         services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SportsShop.WebApi", Version = "v1" });

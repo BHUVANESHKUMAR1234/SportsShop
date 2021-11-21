@@ -22,16 +22,24 @@ namespace SportsShop.WebApi.Controllers
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<order>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+
+
+            return await _context.Orders
+                 .Include(x => x.Customer)
+                 .Include(x => x.Item)
+                 .ToListAsync();
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<order>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+                .Include(x => x.Customer)
+                 .Include(x => x.Item)
+                .FirstOrDefaultAsync(x => x.OrderNumber == id);
 
             if (order == null)
             {
@@ -45,8 +53,17 @@ namespace SportsShop.WebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        public async Task<IActionResult> PutOrder(int id, order order)
         {
+            order.OrderNumber = id;
+
+            int stock = _context.Items.Where(x => x.ItemNumber == order.ItemNumber).Single().ItemNumber;
+
+            order.Price = _context.Items.Where(x => x.ItemNumber == order.ItemNumber).Single().Value;
+
+
+
+            order.Total = order.Price * order.Quantity;
             if (id != order.OrderNumber)
             {
                 return BadRequest();
@@ -77,9 +94,18 @@ namespace SportsShop.WebApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<order>> PostOrder(order order)
         {
-            _context.Orders.Add(order);
+            int stock = _context.Items.Where(x => x.ItemNumber == order.ItemNumber).Single().ItemNumber;
+
+           order.Price = _context.Items.Where(x => x.ItemNumber == order.ItemNumber).Single().Value;
+
+            
+            
+            order.Total = order.Price * order.Quantity;
+
+             _context.Orders.Add(order);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOrder", new { id = order.OrderNumber }, order);
@@ -87,7 +113,7 @@ namespace SportsShop.WebApi.Controllers
 
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Order>> DeleteOrder(int id)
+        public async Task<ActionResult<order>> DeleteOrder(int id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

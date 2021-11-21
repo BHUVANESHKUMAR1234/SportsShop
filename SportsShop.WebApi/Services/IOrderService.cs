@@ -8,10 +8,10 @@ namespace SportsShop.WebApi.Services
 {
     interface IOrderService
     {
-        Task<IEnumerable<Order>> GetOrderList();
-        Task<Order> GetOrderById(int id);
-        Task<Order> CreateOrder(Order order);
-        Task UpdateOrder(Order order);
-        Task DeleteOrder(Order order);
+        Task<IEnumerable<order>> GetOrderList();
+        Task<order> GetOrderById(int id);
+        Task<order> CreateOrder(order order);
+        Task UpdateOrder(order order);
+        Task DeleteOrder(order order);
     }
 }
