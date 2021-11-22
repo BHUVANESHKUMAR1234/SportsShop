@@ -115,7 +115,7 @@ namespace SportsShop.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<order>> DeleteOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = _context.Orders.FirstOrDefault(x => x.OrderNumber == id);
             if (order == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace SportsShop.WebApi.Controllers
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
 
-            return order;
+            return order ;
         }
 
         private bool OrderExists(int id)
